@@ -1,28 +1,28 @@
-import React, { Component } from 'react';
+import React, { useContext } from 'react';
 import { ThemeContext } from '../contexts/ThemeContext'
+import { AuthContext } from '../contexts/AuthContext';
 
 
-export default class Navbar extends Component {
+export const Navbar = () => {
     
-    static contextType = ThemeContext
-
-    render() {
-       
-        const {isLightTheme, light, dark} = this.context;
-        const theme = isLightTheme ? light : dark
-
-
-        return (
+    const { isAuthenticated, toggleAuth } = useContext(AuthContext)
+    const { isLightTheme, light, dark } = useContext(ThemeContext)
+    const theme = isLightTheme ? light : dark  
+    
+    return (
+        <nav style={{ background: theme.ui, color: theme.syntaxText }}>
+            <h1>Context app</h1>
             <div>
-                <nav style={{ background: theme.ui, color: theme.syntaxText }}>
-                    <h1>Context app</h1>
-                        <ul>
-                            <li>Home</li>
-                            <li>About</li>
-                            <li>Contact</li>
-                        </ul>
-                </nav>
+                { isAuthenticated ? 'logged in' : 'Logged out' }
             </div>
-        )
-    }
+            <div>
+                <button onClick={toggleAuth}>Change log status</button>
+            </div>
+                <ul>
+                    <li>Home</li>
+                    <li>About</li>
+                    <li>Contact</li>
+                </ul>
+        </nav>
+    )
 }
